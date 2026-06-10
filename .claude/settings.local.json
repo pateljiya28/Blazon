@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.blazonclock.com)",
+      "Read(//c/Users/Admin/Desktop/UtilSign//**)",
+      "Read(//c/Users/Admin/Desktop/UtilSign/**)",
+      "mcp__claude_ai_Vercel__deploy_to_vercel",
+      "Bash(npx vercel:*)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Admin\\Desktop\\New folder"
+    ]
+  }
+}

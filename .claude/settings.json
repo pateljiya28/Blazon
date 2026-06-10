@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find \"c:/Users/Admin/Desktop/New folder\" -type f -exec du -sh {} \\\\;)"
+    ]
+  }
+}

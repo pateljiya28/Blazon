@@ -1,0 +1,6 @@
+.vercel
+
+# Raw source assets (large videos, product photo archives, source gifs).
+# Kept locally only — not part of the deployed site (see .vercelignore).
+New folder/
+New folder (2)/

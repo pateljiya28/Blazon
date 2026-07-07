@@ -1,0 +1,199 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Blazon palette ───────────────────────────────────────── */
+  --color-ivory-50: #fcfaf4;
+  --color-ivory-100: #f7f2e7;
+  --color-ivory-200: #efe6d2;
+  --color-ivory-300: #e3d6b9;
+
+  --color-ink-950: #131a2b;
+  --color-ink-900: #1a2238;
+  --color-ink-700: #323c58;
+  --color-ink-500: #565f7a;
+  --color-ink-400: #767e96;
+
+  --color-brass-300: #d9bc7e;
+  --color-brass-400: #c9a45c;
+  --color-brass-500: #b08d44;
+  --color-brass-600: #97742f;
+  --color-brass-700: #7a5c23;
+
+  --color-terracotta-500: #b35c38;
+
+  /* ── Typography ───────────────────────────────────────────── */
+  --font-display: var(--font-fraunces), "Georgia", serif;
+  --font-sans: var(--font-karla), "Helvetica Neue", sans-serif;
+
+  /* ── Motion ───────────────────────────────────────────────── */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-marquee: marquee 36s linear infinite;
+  --animate-spin-slow: spin 90s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+:root {
+  color-scheme: light only;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ivory-50);
+  color: var(--color-ink-900);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background-color: var(--color-brass-400);
+  color: var(--color-ivory-50);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brass-600);
+  outline-offset: 3px;
+}
+
+/* ── Paper grain overlay (pure SVG noise, ~300 bytes) ────────── */
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Brass hairline rules ────────────────────────────────────── */
+.rule-brass {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-brass-400) 18%,
+    var(--color-brass-400) 82%,
+    transparent
+  );
+}
+
+/* ── Editorial eyebrow label ─────────────────────────────────── */
+.eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-brass-700);
+}
+
+/* ── Scroll reveal (driven by Reveal component) ──────────────── */
+.reveal {
+  transition:
+    opacity 0.9s var(--ease-out-soft),
+    transform 0.9s var(--ease-out-soft);
+}
+
+/* Only hide pre-reveal content when JS can actually reveal it. */
+@media (scripting: enabled) {
+  .reveal:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+}
+
+/* ── Load-time entrance (pure CSS, no JS needed — for LCP/hero) ─ */
+.rise {
+  animation: rise 0.9s var(--ease-out-soft) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+}
+
+/* ── Marquee pauses while hovered ────────────────────────────── */
+.marquee-strip:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal:not(.is-visible) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .rise,
+  .animate-marquee,
+  .animate-spin-slow,
+  .animate-ping,
+  .clock-hand {
+    animation: none !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ── Live clock hands ────────────────────────────────────────── */
+.clock-hand {
+  transform-origin: 50% 50%;
+  transform: rotate(var(--initial, 0deg));
+}
+
+.clock-running .hand-hour {
+  animation: hand-turn 43200s linear infinite;
+  animation-delay: var(--delay-h, 0s);
+}
+
+.clock-running .hand-minute {
+  animation: hand-turn 3600s linear infinite;
+  animation-delay: var(--delay-m, 0s);
+}
+
+.clock-running .hand-second {
+  animation: hand-turn 60s linear infinite;
+  animation-delay: var(--delay-s, 0s);
+}
+
+@keyframes hand-turn {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Product card photo treatment ────────────────────────────── */
+.card-tilt {
+  transition:
+    transform 0.6s var(--ease-out-soft),
+    box-shadow 0.6s var(--ease-out-soft);
+}
+
+@media (hover: hover) {
+  .card-tilt:hover {
+    transform: perspective(900px) rotateX(2.5deg) rotateY(-2.5deg)
+      translateY(-4px);
+    box-shadow:
+      0 24px 48px -20px rgb(26 34 56 / 0.18),
+      0 6px 16px -8px rgb(26 34 56 / 0.1);
+  }
+}
